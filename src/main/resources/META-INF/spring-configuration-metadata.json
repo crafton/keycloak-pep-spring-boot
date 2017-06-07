@@ -1,0 +1,24 @@
+{
+  "properties": [
+    {
+      "name": "KeycloakPep.tokenUrl",
+      "type": "java.lang.String",
+      "description": "The absolute URL of the Keycloak entitlements API, WITH trailing slash. E.g. http://keycloakserver.com/auth/realms/TEST/authz/entitlement/."
+    },
+    {
+      "name": "KeycloakPep.realmUrl",
+      "type": "java.lang.String",
+      "description": "The absolute URL of the keycloak realm where your client resides, WITHOUT trailing slash. E.g. http://keycloakserver.com/auth/realms/TEST."
+    },
+    {
+      "name": "KeycloakPep.policyEnforcementFilename",
+      "type": "java.lang.String",
+      "description": "The name of the json file where the policy enforcement rules live. This should be in the root of your resources directory."
+    },
+    {
+      "name": "KeycloakPep.clientId",
+      "type": "java.lang.String",
+      "description": "The name of the Keycloak client that is providing the authorization policies."
+    }
+  ]
+}

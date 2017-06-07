@@ -1,0 +1,8 @@
+{
+  "realm": "TEST",
+  "public_key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1fA4TTgMbDyWzYp/p+XuDcztPFyDMYug81TkSFkgXnknM48BL2KwYXt6FDkuNFZqW+mKcpcKK9hrzAec9h6CS+7US4SbiLNSU8cdX1MZNgdavD8UYUDzaJTpI2v+uORmEJlgtQq2SnIdaKEAYf3ZY1Lfb9aY7eMwPSVeOrmbLwF9j1dElDpuX1Ipch0WGRGukjkahZe1dtqIBpZwyw8HqUbh0reh2mSzOnfq6vrOCQpbDcu+jzp7UuEX3H4sXtembD6rfGLGPEb6tMKwmFiY7IUBZKQi5Nrwiga3kVQJH/hDD/lF5pPMV5ZB82QGVr8H3ihffJSflBLaBvPeN1zd/wIDAQAB",
+  "token-service": "http://localhost:8080/auth/realms/TEST/protocol/openid-connect",
+  "account-service": "http://localhost:8080/auth/realms/TEST/account",
+  "admin-api": "http://localhost:8080/auth/admin",
+  "tokens-not-before": 0
+}

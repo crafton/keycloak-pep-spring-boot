@@ -1,0 +1,14 @@
+{
+    "permissions": [
+      {
+        "scopes": [],
+        "resource_set_id": "d30e59ba-195f-4200-bb35-b24bafc0e489",
+        "resource_set_name": "SAMS"
+      },
+      {
+        "scopes": [],
+        "resource_set_id": "20827a22-ba94-469d-9944-4cc11d932c26",
+        "resource_set_name": "home"
+      }
+    ]
+}

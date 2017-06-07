@@ -1,0 +1,69 @@
+{
+  "endpoints": [
+    {
+      "name": "SAMS",
+      "paths": [
+        "/people/home"
+      ],
+      "entitlements": [
+        {
+          "methods": [
+            "GET"
+          ],
+          "scopes": [
+            "urn:people-api:identities:update"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "home",
+      "paths": [
+        "/people/*",
+        "/things/*"
+      ],
+      "entitlements": [
+        {
+          "methods": [
+            "GET"
+          ],
+          "scopes": [
+            "urn:people-api:identities:read"
+          ]
+        },
+        {
+          "methods": [
+            "POST"
+          ],
+          "scopes": [
+            "urn:people-api:identities:write"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "home",
+      "paths": [
+        "/applications/type/*"
+      ],
+      "entitlements": [
+        {
+          "methods": [
+            "GET"
+          ],
+          "scopes": [
+            "urn:people-api:identities:read"
+          ]
+        },
+        {
+          "methods": [
+            "POST"
+          ],
+          "scopes": [
+            "urn:people-api:identities:write"
+          ]
+        }
+      ]
+    }
+  ]
+}
