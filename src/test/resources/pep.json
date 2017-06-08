@@ -42,7 +42,7 @@
       ]
     },
     {
-      "name": "home",
+      "name": "applications",
       "paths": [
         "/applications/type/*"
       ],
@@ -61,6 +61,22 @@
           ],
           "scopes": [
             "urn:people-api:identities:write"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "HR",
+      "paths": [
+        "/drones/people"
+      ],
+      "entitlements": [
+        {
+          "methods": [
+            "GET"
+          ],
+          "scopes": [
+            "urn:people-api:identities:read"
           ]
         }
       ]

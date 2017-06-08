@@ -13,6 +13,13 @@
         ],
         "resource_set_id": "20827a22-ba94-469d-9944-4cc11d932c26",
         "resource_set_name": "home"
+      },
+      {
+        "scopes": [
+          "urn:people-api:identities:read"
+        ],
+        "resource_set_id": "20827a22-ba94-469d-9944-4cc11d932c26",
+        "resource_set_name": "applications"
       }
     ]
 }

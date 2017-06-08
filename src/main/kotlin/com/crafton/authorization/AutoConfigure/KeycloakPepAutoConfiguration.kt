@@ -24,7 +24,7 @@ class KeycloakPepAutoConfiguration(val pepProperties: KeycloakPepProperties) {
 
     @Bean
     fun pepConfig(): PepConfig {
-        return mapper.readValue(File(pepProperties.policyEnforcementFilename).readText())
+        return mapper.readValue(this.javaClass.getResource(pepProperties.policyEnforcementFilename).readText())
     }
 
     @Bean

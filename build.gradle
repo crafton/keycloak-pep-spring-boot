@@ -52,9 +52,11 @@ dependencies {
 	compile("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
 	compile('com.auth0:java-jwt:3.2.0')
 	compile("com.fasterxml.jackson.module:jackson-module-kotlin:2.8.7")
-	compile('')
 	testCompile('org.jetbrains.spek:spek-api:1.1.2')
 	testRuntime('org.jetbrains.spek:spek-junit-platform-engine:1.1.2')
 	testCompile("org.junit.jupiter:junit-jupiter-api:5.0.0-M4")
 	testRuntime("org.junit.jupiter:junit-jupiter-engine:5.0.0-M4")
+	testCompile("org.mockito:mockito-core:2.+")
+	testCompile("org.jetbrains.kotlin:kotlin-test:${kotlinVersion}")
+	testCompile("com.nhaarman:mockito-kotlin:1.5.0")
 }

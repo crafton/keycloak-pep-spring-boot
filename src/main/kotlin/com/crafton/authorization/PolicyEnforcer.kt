@@ -30,7 +30,7 @@ class PolicyEnforcer(val pepConfig: PepConfig, val authorizingAgent: Authorizing
 
         val pepEndpoint = pepConfig.endpoints.find { it.name == pepResourceSetName }?: return false
 
-        for((scopes, methods) in pepEndpoint.entitlements){
+        for((methods, scopes) in pepEndpoint.entitlements){
             if(doSetsIntersect(scopes, applicableScopes) && methods.contains(httpMethod)){
                 return true
             }
