@@ -1,6 +1,7 @@
 package com.crafton.authorization
 
 import com.crafton.authorization.Representations.PepConfig
+import com.crafton.authorization.Representations.PepEndpoint
 import com.crafton.authorization.Representations.Permission
 import org.springframework.stereotype.Service
 
@@ -26,12 +27,12 @@ class PolicyEnforcer(val pepConfig: PepConfig, val authorizingAgent: Authorizing
             return false
         }
 
-        val applicableScopes = getApplicableScopes(pepResourceSetName, permissions)?: return false
+        val applicableScopes = getApplicableScopes(pepResourceSetName, permissions) ?: return false
 
-        val pepEndpoint = pepConfig.endpoints.find { it.name == pepResourceSetName }?: return false
+        val pepEndpoint = pepConfig.endpoints.find { it.name == pepResourceSetName } ?: return false
 
-        for((methods, scopes) in pepEndpoint.entitlements){
-            if(doSetsIntersect(scopes, applicableScopes) && methods.contains(httpMethod)){
+        for ((methods, scopes) in pepEndpoint.entitlements) {
+            if (doSetsIntersect(scopes, applicableScopes) && methods.contains(httpMethod)) {
                 return true
             }
         }
@@ -60,17 +61,34 @@ class PolicyEnforcer(val pepConfig: PepConfig, val authorizingAgent: Authorizing
     }
 
     /**
-     * Given a user requested path, retrieve the associated resource set name.
+     * Given a user requested path, retrieve the associated resource set name with the most appropriate match.
      *
      * @param requestedPath
      * @return Resource set name as String
      */
     private fun getPepResourceSetName(requestedPath: String): String? {
-        for ((name, paths) in pepConfig.endpoints) {
-            paths.filter { isMatched(it, requestedPath) }
-                    .forEach { return name }
+
+        val matchedEndpoints = getMatchedEndpoints(requestedPath)
+
+        if (matchedEndpoints.isEmpty()) {
+            return null
+        } else {
+            return matchedEndpoints.first().name
         }
-        return null
+    }
+
+    /**
+     * Find all resource endpoints that match the given path
+     *
+     */
+    private fun getMatchedEndpoints(requestedPath: String): Set<PepEndpoint> {
+        val matchedEndpoints = mutableSetOf<PepEndpoint>()
+        for (endpoint in pepConfig.endpoints) {
+            endpoint.paths.filter { isMatched(it, requestedPath) }
+                    .forEach { matchedEndpoints.add(endpoint) }
+        }
+
+        return matchedEndpoints
     }
 
     /**

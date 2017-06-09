@@ -10,7 +10,7 @@ fun findDuplicateEndpointNames(pepEndpoints: Set<PepEndpoint>): List<String> {
     val allEndpoints = pepEndpoints.toList()
     val distinctEndpoints = pepEndpoints.distinctBy { it.name }
 
-    val duplicateEndpointNames: MutableList<String> = mutableListOf()
+    val duplicateEndpointNames = mutableListOf<String>()
     if (allEndpoints.size > distinctEndpoints.size) {
         val duplicateEndpoints: List<PepEndpoint> = allEndpoints.minus(distinctEndpoints)
         duplicateEndpoints.forEach { duplicateEndpointNames.add(it.name) }

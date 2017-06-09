@@ -31,19 +31,25 @@ class AuthorizingAgent(val realmConfig: RealmConfig, val restTemplate: RestTempl
      * Given an access token, query the Keycloak entitlements API and retrieve the RPT
      */
     private fun getRptAuthorization(accessToken: String): Authorization? {
-        val headers = HttpHeaders()
-        headers.add("Authorization", "Bearer $accessToken")
-        val entity = HttpEntity(null, headers)
 
-        val tokenUrl: String = "${pepProperties.tokenUrl}${pepProperties.clientId}"
-        val rpt: String = restTemplate.exchange(tokenUrl, HttpMethod.GET, entity, String::class.java).body
-        val mapper = jacksonObjectMapper()
-        val rptMap: Map<String, String> = mapper.readValue(rpt)
-        val rptString = rptMap["rpt"] ?: return null
-        val decodedRPT = verifyRpt(rptString) ?: return null
-        val claim = decodedRPT.getClaim("authorization") ?: return null
+        try {
+            val headers = HttpHeaders()
+            headers.add("Authorization", "Bearer $accessToken")
+            val entity = HttpEntity(null, headers)
 
-        return mapper.readValue(claim.asString())
+            val tokenUrl: String = "${pepProperties.tokenUrl}${pepProperties.clientId}"
+            val rpt: String = restTemplate.exchange(tokenUrl, HttpMethod.GET, entity, String::class.java).body
+            val mapper = jacksonObjectMapper()
+            val rptMap: Map<String, String> = mapper.readValue(rpt)
+            val rptString = rptMap["rpt"] ?: return null
+            val decodedRPT = verifyRpt(rptString) ?: return null
+            val claim = decodedRPT.getClaim("authorization") ?: return null
+
+            return mapper.readValue(claim.asString())
+        } catch (e: Exception) {
+            logger.warn("Failed to retrieve authorization claim. Failed with the following exception: ${e.message}")
+            return null
+        }
     }
 
     private fun verifyRpt(token: String): DecodedJWT? = verifyToken(token)

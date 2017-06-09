@@ -3,7 +3,6 @@ package com.crafton.authorization
 import com.crafton.authorization.AutoConfigure.findDuplicateEndpointNames
 import com.crafton.authorization.Representations.Authorization
 import com.crafton.authorization.Representations.PepConfig
-import com.crafton.authorization.Representations.PepEndpoint
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.nhaarman.mockito_kotlin.doReturn
@@ -26,7 +25,7 @@ object PolicyEnforcerTest : Spek({
         throw IllegalArgumentException("Found the following duplicate endpoints: ${duplicates.joinToString(",")}")
     }
 
-    given("A Policy Enforcer") {
+    given("a Policy Enforcer, make an authorization decision based on path and method") {
 
         val authorization: Authorization = mapper.readValue(PolicyEnforcerTest::class.java.getResource("/authorization.json").readText())
         val userAuthorization = mock<AuthorizingAgent> {
@@ -122,6 +121,61 @@ object PolicyEnforcerTest : Spek({
             }
         }
 
+    }
+
+    given("a policy enforcer, certain token contents must result in authorization being denied"){
+
+        on("permissions are empty"){
+            val authorization: Authorization = mapper.readValue(PolicyEnforcerTest::class.java.getResource("/authorization-noperms.json").readText())
+            val userAuthorization = mock<AuthorizingAgent> {
+                on { getAuthorization(Matchers.anyString()) } doReturn authorization
+            }
+            val policyEnforcer = PolicyEnforcer(pepConfig, userAuthorization)
+            val decision = policyEnforcer.isUserAuthorized("an access token", "/people/home", "GET")
+
+            it("should return false"){
+                assertFalse(decision)
+            }
+        }
+
+        on("permissions are null"){
+            val authorization: Authorization = mapper.readValue(PolicyEnforcerTest::class.java.getResource("/authorization-invalid.json").readText())
+            val userAuthorization = mock<AuthorizingAgent> {
+                on { getAuthorization(Matchers.anyString()) } doReturn authorization
+            }
+            val policyEnforcer = PolicyEnforcer(pepConfig, userAuthorization)
+            val decision = policyEnforcer.isUserAuthorized("an access token", "/people/home", "GET")
+
+            it("should return false"){
+                assertFalse(decision)
+            }
+        }
+
+        on("authorization claims have no matching scopes"){
+            val authorization: Authorization = mapper.readValue(PolicyEnforcerTest::class.java.getResource("/authorization-nomatchingscopes.json").readText())
+            val userAuthorization = mock<AuthorizingAgent> {
+                on { getAuthorization(Matchers.anyString()) } doReturn authorization
+            }
+            val policyEnforcer = PolicyEnforcer(pepConfig, userAuthorization)
+            val decision = policyEnforcer.isUserAuthorized("an access token", "/people/home", "GET")
+
+            it("should return false"){
+                assertFalse(decision)
+            }
+        }
+
+        on("authorization claim has no matching resource names"){
+            val authorization: Authorization = mapper.readValue(PolicyEnforcerTest::class.java.getResource("/authorization-nomatchingresourcename.json").readText())
+            val userAuthorization = mock<AuthorizingAgent> {
+                on { getAuthorization(Matchers.anyString()) } doReturn authorization
+            }
+            val policyEnforcer = PolicyEnforcer(pepConfig, userAuthorization)
+            val decision = policyEnforcer.isUserAuthorized("an access token", "/people/home", "GET")
+
+            it("should return false"){
+                assertFalse(decision)
+            }
+        }
     }
 
 })
