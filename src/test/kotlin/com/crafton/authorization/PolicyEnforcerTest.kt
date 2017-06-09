@@ -1,7 +1,9 @@
 package com.crafton.authorization
 
+import com.crafton.authorization.AutoConfigure.findDuplicateEndpointNames
 import com.crafton.authorization.Representations.Authorization
 import com.crafton.authorization.Representations.PepConfig
+import com.crafton.authorization.Representations.PepEndpoint
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.nhaarman.mockito_kotlin.doReturn
@@ -11,18 +13,22 @@ import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.api.dsl.on
 import org.mockito.Matchers
-import java.io.File
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 object PolicyEnforcerTest : Spek({
 
     val mapper = jacksonObjectMapper()
-    val pepConfig: PepConfig = mapper.readValue(File("./src/test/resources/pep.json").readText())
+    val pepConfig: PepConfig = mapper.readValue(PolicyEnforcerTest::class.java.getResource("/pep.json").readText())
+
+    val duplicates = findDuplicateEndpointNames(pepConfig.endpoints)
+    if (duplicates.isNotEmpty()) {
+        throw IllegalArgumentException("Found the following duplicate endpoints: ${duplicates.joinToString(",")}")
+    }
 
     given("A Policy Enforcer") {
 
-        val authorization: Authorization = mapper.readValue(File("./src/test/resources/authorization.json").readText())
+        val authorization: Authorization = mapper.readValue(PolicyEnforcerTest::class.java.getResource("/authorization.json").readText())
         val userAuthorization = mock<AuthorizingAgent> {
             on { getAuthorization(Matchers.anyString()) } doReturn authorization
         }

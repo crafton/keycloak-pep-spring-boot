@@ -24,7 +24,14 @@ class KeycloakPepAutoConfiguration(val pepProperties: KeycloakPepProperties) {
 
     @Bean
     fun pepConfig(): PepConfig {
-        return mapper.readValue(this.javaClass.getResource(pepProperties.policyEnforcementFilename).readText())
+        val pepConfig: PepConfig = mapper.readValue(KeycloakPepAutoConfiguration::class.java.getResource("/${pepProperties.policyEnforcementFilename}").readText())
+
+        val duplicateNames: List<String> = findDuplicateEndpointNames(pepConfig.endpoints)
+        if(duplicateNames.isNotEmpty()){
+            throw IllegalArgumentException("Duplicate resource names not allowed. Detected the following: ${duplicateNames.joinToString(",")}")
+        }
+
+        return pepConfig
     }
 
     @Bean
