@@ -2,14 +2,10 @@
   "endpoints": [
     {
       "name": "SAMS",
-      "paths": [
-        "/people/home"
-      ],
+      "path": "/people/home",
       "entitlements": [
         {
-          "methods": [
-            "GET"
-          ],
+          "method": "GET",
           "scopes": [
             "urn:people-api:identities:update"
           ]
@@ -18,23 +14,16 @@
     },
     {
       "name": "home",
-      "paths": [
-        "/people/*",
-        "/things/*"
-      ],
+      "path": "/people/*",
       "entitlements": [
         {
-          "methods": [
-            "GET"
-          ],
+          "method": "GET",
           "scopes": [
             "urn:people-api:identities:read"
           ]
         },
         {
-          "methods": [
-            "POST"
-          ],
+          "method": "POST",
           "scopes": [
             "urn:people-api:identities:write"
           ]
@@ -43,22 +32,16 @@
     },
     {
       "name": "applications",
-      "paths": [
-        "/applications/type/*"
-      ],
+      "path": "/applications/type/*",
       "entitlements": [
         {
-          "methods": [
-            "GET"
-          ],
+          "method": "GET",
           "scopes": [
             "urn:people-api:identities:read"
           ]
         },
         {
-          "methods": [
-            "POST"
-          ],
+          "method": "POST",
           "scopes": [
             "urn:people-api:identities:write"
           ]
@@ -67,14 +50,10 @@
     },
     {
       "name": "HR",
-      "paths": [
-        "/drones/people"
-      ],
+      "path": "/drones/people",
       "entitlements": [
         {
-          "methods": [
-            "GET"
-          ],
+          "method": "GET",
           "scopes": [
             "urn:people-api:identities:read"
           ]

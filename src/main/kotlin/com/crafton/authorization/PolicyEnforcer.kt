@@ -82,11 +82,9 @@ class PolicyEnforcer(val pepConfig: PepConfig, val authorizingAgent: Authorizing
      *
      */
     private fun getMatchedEndpoints(requestedPath: String): Set<PepEndpoint> {
-        val matchedEndpoints = mutableSetOf<PepEndpoint>()
-        for (endpoint in pepConfig.endpoints) {
-            endpoint.paths.filter { isMatched(it, requestedPath) }
-                    .forEach { matchedEndpoints.add(endpoint) }
-        }
+        val matchedEndpoints = pepConfig.endpoints
+                .filter { isMatched(it.path, requestedPath) }
+                .toSet()
 
         return matchedEndpoints
     }

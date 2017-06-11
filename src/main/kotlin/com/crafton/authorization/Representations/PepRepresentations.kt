@@ -7,11 +7,11 @@ data class PepConfig(
 
 data class PepEndpoint(
         val name: String,
-        val paths: Set<String>,
+        val path: String,
         val entitlements: Set<PepEntitlement>
 )
 
 data class PepEntitlement(
-        val methods: Set<String>,
+        val method: String,
         val scopes: Set<String>
 )
